@@ -965,6 +965,8 @@ CGGradientRef MGCreateGradientWithColors(UIColor *topColorRGB, UIColor *bottomCo
 				[tileButton setBackgroundImage:nil forState:UIControlStateHighlighted];
 				[tileButton setAccessibilityLabel:nil];
 				[tileButton setAccessibilityHint:nil];
+                [tileButton setTitle:nil forState:UIControlStateNormal];
+                [tileButton setTitle:nil forState:UIControlStateHighlighted];
 				tileButton.alpha = 1.0;
 				
 				[UIView transitionWithView:tileButton 
@@ -977,14 +979,51 @@ CGGradientRef MGCreateGradientWithColors(UIColor *topColorRGB, UIColor *bottomCo
 				
 			} else {
 				tileImage = [_delegate imageForTile:currentTileIndex inMenu:self];
-				[tileButton setImage:tileImage forState:UIControlStateNormal];
-				[tileButton setImage:tileImage forState:UIControlStateHighlighted];
-				[tileButton setBackgroundImage:[self tileBackgroundImageForTile:currentTileIndex highlighted:NO] 
+
+				[tileButton setBackgroundImage:[self tileBackgroundImageForTile:currentTileIndex highlighted:NO]
 									  forState:UIControlStateNormal];
 				[tileButton setBackgroundImage:[self tileBackgroundImageForTile:currentTileIndex highlighted:YES] 
 									  forState:UIControlStateHighlighted];
 				[tileButton setAccessibilityLabel:[_delegate labelForTile:currentTileIndex inMenu:self]];
 				[tileButton setAccessibilityHint:[_delegate descriptionForTile:currentTileIndex inMenu:self]];
+                
+                //Center Image
+				[tileButton setImage:tileImage forState:UIControlStateNormal];
+				[tileButton setImage:tileImage forState:UIControlStateHighlighted];
+                CGFloat imageWidth = tileButton.imageView.frame.size.width;
+                CGFloat centeredImageSidePadding = (tileButton.frame.size.width - imageWidth) / 2;
+                [tileButton setImageEdgeInsets:UIEdgeInsetsMake(5, centeredImageSidePadding, 20, centeredImageSidePadding)];
+                
+//                CGSize titleSize = [tileButton.accessibilityLabel sizeWithFont:[UIFont boldSystemFontOfSize:12]
+//                                                             constrainedToSize:CGSizeMake(floorf(0.9 * tileButton.frame.size.width), floorf(0.25 * tileButton.frame.size.height))
+//                                                                 lineBreakMode:UILineBreakModeWordWrap];
+                
+                [tileButton setTitle:tileButton.accessibilityLabel forState:UIControlStateNormal];
+                [tileButton setTitle:tileButton.accessibilityLabel forState:UIControlStateHighlighted];
+                [tileButton.titleLabel setFont:[UIFont boldSystemFontOfSize:10]];
+                [tileButton.titleLabel setTextAlignment:UITextAlignmentCenter];
+                tileButton.titleLabel.numberOfLines = 0;
+                
+                CGFloat textLength = [tileButton.titleLabel.text sizeWithFont:[UIFont boldSystemFontOfSize:10]].width;
+                if (textLength < (tileButton.frame.size.width - 10))
+                {
+                    tileButton.titleLabel.numberOfLines = 1;
+                    [tileButton setTitleEdgeInsets:UIEdgeInsetsMake(40, -tileButton.imageView.frame.size.width,
+                                                              5, 0)];
+                }
+                else
+                {
+                    //Hmmm
+                    tileButton.titleLabel.numberOfLines = 0;
+                    [tileButton setTitleEdgeInsets:UIEdgeInsetsMake(40, -tileButton.imageView.frame.size.width,
+                                                              5, 0)];
+                }
+
+//                tileButton.imageView.layer.borderColor = [UIColor whiteColor].CGColor;
+//                tileButton.imageView.layer.borderWidth = 1.0f;                
+//                tileButton.titleLabel.layer.borderColor = [UIColor whiteColor].CGColor;
+//                tileButton.titleLabel.layer.borderWidth = 1.0f;
+                
 				if (_delegate && [_delegate respondsToSelector:@selector(isTileEnabled:inMenu:)]) {
 					tileEnabled = [_delegate isTileEnabled:currentTileIndex inMenu:self];
 				}
