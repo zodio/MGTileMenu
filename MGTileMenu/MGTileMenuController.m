@@ -93,13 +93,14 @@ NSString *MGTileMenuDidSwitchToPageNotification;
         _tileSide = 72;
         _tileGap = 20;
 //		_cornerRadius = 12.0;
-        _cornerRadius = 5.0;
+        _cornerRadius = 3.0;
 		_tileGradient = MGCreateGradientWithColors([UIColor colorWithRed:0.28 green:0.67 blue:0.90 alpha:1.0],
 												   [UIColor colorWithRed:0.19 green:0.46 blue:0.76 alpha:1.0]);		
 //		_selectionBorderWidth = 5;
         _selectionBorderWidth = 3;
-		_selectionGradient = MGCreateGradientWithColors([UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0],
-														[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0]);
+//		_selectionGradient = MGCreateGradientWithColors([UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0],
+//														[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0]);
+        _selectionGradient = MGCreateGradientWithColors(kZodioColorOrange, kZodioColorOrange);
 		_bezelColor = [UIColor colorWithWhite:0 alpha:0.50];
         _closeButtonImage = nil;
         _selectedCloseButtonImage = nil;
