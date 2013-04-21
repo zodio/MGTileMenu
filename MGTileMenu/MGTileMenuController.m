@@ -10,6 +10,9 @@
 #import "MGTileMenuView.h"
 #import <QuartzCore/QuartzCore.h>
 
+#import "DemoButton.h"
+#import "MTLabel.h"
+
 
 // Various keys for internal use.
 #define MG_ANIMATION_APPEAR		@"Appear"
@@ -89,11 +92,13 @@ NSString *MGTileMenuDidSwitchToPageNotification;
         _shadowsEnabled = YES;
         _tileSide = 72;
         _tileGap = 20;
-		_cornerRadius = 12.0;
-		_tileGradient = MGCreateGradientWithColors([UIColor colorWithRed:0.28 green:0.67 blue:0.90 alpha:1.0], 
+//		_cornerRadius = 12.0;
+        _cornerRadius = 5.0;
+		_tileGradient = MGCreateGradientWithColors([UIColor colorWithRed:0.28 green:0.67 blue:0.90 alpha:1.0],
 												   [UIColor colorWithRed:0.19 green:0.46 blue:0.76 alpha:1.0]);		
-		_selectionBorderWidth = 5;
-		_selectionGradient = MGCreateGradientWithColors([UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], 
+//		_selectionBorderWidth = 5;
+        _selectionBorderWidth = 3;
+		_selectionGradient = MGCreateGradientWithColors([UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0],
 														[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0]);
 		_bezelColor = [UIColor colorWithWhite:0 alpha:0.50];
         _closeButtonImage = nil;
@@ -179,7 +184,7 @@ NSString *MGTileMenuDidSwitchToPageNotification;
 	// Tiles
 	_tileButtons = [NSMutableArray arrayWithCapacity:6];
 	UIImage *tileImage = [self tileBackgroundImageHighlighted:NO];
-	UIButton *tileButton;
+	DemoButton *tileButton;
 	CGRect tileFrame = CGRectZero;
 	tileFrame.size = tileImage.size;
 	
@@ -190,7 +195,12 @@ NSString *MGTileMenuDidSwitchToPageNotification;
 		[_animationOrder insertObject:[NSNumber numberWithInteger:5] atIndex:0];
 	}
 	for (int i = 0; i < (numTiles + 1); i++) {
-		tileButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//		tileButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        tileButton = [[DemoButton alloc] init];
+        tileButton.buttonLabel.font = [UIFont boldSystemFontOfSize:8];
+        tileButton.buttonLabel.fontColor = [UIColor whiteColor];
+        tileButton.buttonLabel.textAlignment = UITextAlignmentCenter;
+        
 		tileButton.userInteractionEnabled = NO;
 		tileButton.tag = i;
 		tileButton.frame = [self frameForCenteredTile];
@@ -955,7 +965,7 @@ CGGradientRef MGCreateGradientWithColors(UIColor *topColorRGB, UIColor *bottomCo
 		UIImage *tileImage;
 		BOOL tileEnabled = YES;
 		BOOL shouldHide = NO;
-		for (UIButton *tileButton in _tileButtons) {
+		for (DemoButton *tileButton in _tileButtons) {
 			currentTileIndex = (firstTileIndex + i);
 			shouldHide = (i > (numVisibleTiles - 1));
 			if (shouldHide) {
@@ -997,32 +1007,39 @@ CGGradientRef MGCreateGradientWithColors(UIColor *topColorRGB, UIColor *bottomCo
 //                CGSize titleSize = [tileButton.accessibilityLabel sizeWithFont:[UIFont boldSystemFontOfSize:12]
 //                                                             constrainedToSize:CGSizeMake(floorf(0.9 * tileButton.frame.size.width), floorf(0.25 * tileButton.frame.size.height))
 //                                                                 lineBreakMode:UILineBreakModeWordWrap];
+                tileButton.buttonLabel.numberOfLines = 2;
+                [tileButton.buttonLabel setText:tileButton.accessibilityLabel];
+                tileButton.buttonLabel.lineHeight = 8.0f;
+                [tileButton.buttonLabel setFrame:CGRectMake(8, tileButton.imageView.frame.origin.y + tileButton.imageView.frame.size.height - 3,
+                                                            tileButton.frame.size.width - 16,
+                                                            tileButton.frame.size.height - (tileButton.imageView.frame.origin.y + tileButton.imageView.frame.size.height - 3) - 8)];
+//                [tileButton setTitle:tileButton.accessibilityLabel forState:UIControlStateHighlighted];
+//                [tileButton.titleLabel setFont:[UIFont boldSystemFontOfSize:10]];
+//                [tileButton.titleLabel setTextAlignment:UITextAlignmentCenter];
+//                tileButton.titleLabel.numberOfLines = 0;
                 
-                [tileButton setTitle:tileButton.accessibilityLabel forState:UIControlStateNormal];
-                [tileButton setTitle:tileButton.accessibilityLabel forState:UIControlStateHighlighted];
-                [tileButton.titleLabel setFont:[UIFont boldSystemFontOfSize:10]];
-                [tileButton.titleLabel setTextAlignment:UITextAlignmentCenter];
-                tileButton.titleLabel.numberOfLines = 0;
-                
-                CGFloat textLength = [tileButton.titleLabel.text sizeWithFont:[UIFont boldSystemFontOfSize:10]].width;
-                if (textLength < (tileButton.frame.size.width - 10))
-                {
-                    tileButton.titleLabel.numberOfLines = 1;
-                    [tileButton setTitleEdgeInsets:UIEdgeInsetsMake(40, -tileButton.imageView.frame.size.width,
-                                                              5, 0)];
-                }
-                else
-                {
-                    //Hmmm
-                    tileButton.titleLabel.numberOfLines = 0;
-                    [tileButton setTitleEdgeInsets:UIEdgeInsetsMake(40, -tileButton.imageView.frame.size.width,
-                                                              5, 0)];
-                }
+//                CGFloat textLength = [tileButton.titleLabel.text sizeWithFont:[UIFont boldSystemFontOfSize:10]].width;
+//                if (textLength < (tileButton.frame.size.width - 10))
+//                {
+//                    tileButton.titleLabel.numberOfLines = 1;
+//                    [tileButton setTitleEdgeInsets:UIEdgeInsetsMake(40, -tileButton.imageView.frame.size.width,
+//                                                              5, 0)];
+//                }
+//                else
+//                {
+//                    //Hmmm
+//                    tileButton.titleLabel.numberOfLines = 0;
+//                    [tileButton setTitleEdgeInsets:UIEdgeInsetsMake(40, -tileButton.imageView.frame.size.width,
+//                                                              5, 0)];
+//                }
 
+                //Show layout bounds of image and label
 //                tileButton.imageView.layer.borderColor = [UIColor whiteColor].CGColor;
-//                tileButton.imageView.layer.borderWidth = 1.0f;                
+//                tileButton.imageView.layer.borderWidth = 1.0f;
 //                tileButton.titleLabel.layer.borderColor = [UIColor whiteColor].CGColor;
 //                tileButton.titleLabel.layer.borderWidth = 1.0f;
+//                tileButton.buttonLabel.layer.borderColor = [UIColor whiteColor].CGColor;
+//                tileButton.buttonLabel.layer.borderWidth = 1.0f;
                 
 				if (_delegate && [_delegate respondsToSelector:@selector(isTileEnabled:inMenu:)]) {
 					tileEnabled = [_delegate isTileEnabled:currentTileIndex inMenu:self];
