@@ -27,6 +27,7 @@
 // Timing.
 #define MG_ANIMATION_DURATION	0.15 // seconds
 #define MG_ACTIVATION_DISMISS_DELAY	0.25 // seconds; delay between activating a tile and auto-dismissing the menu (if appropriate)
+#define MG_TILE_IMAGE_SIZE          40 //size of tile image and icons
 
 
 // Notifications.
@@ -670,7 +671,7 @@ CGGradientRef MGCreateGradientWithColors(UIColor *topColorRGB, UIColor *bottomCo
 		[self.view.layer addAnimation:animation forKey:[NSString stringWithFormat:@"%d", i]];
 		i++;
 	}
-	
+	 
 	if (!_rightHanded) {
 		// Switch to counterclockwise-from-right animation order.
 		_animationOrder = [NSMutableArray arrayWithObjects:
@@ -678,7 +679,7 @@ CGGradientRef MGCreateGradientWithColors(UIColor *topColorRGB, UIColor *bottomCo
 						   [NSNumber numberWithInteger:2], 
 						   [NSNumber numberWithInteger:1], 
 						   [NSNumber numberWithInteger:0], 
-						   [NSNumber numberWithInteger:3], 
+						   [NSNumber numberWithInteger:3],
 						   nil];
 	}
 	
@@ -1001,8 +1002,8 @@ CGGradientRef MGCreateGradientWithColors(UIColor *topColorRGB, UIColor *bottomCo
                 //Center Image
 				[tileButton setImage:tileImage forState:UIControlStateNormal];
 				[tileButton setImage:tileImage forState:UIControlStateHighlighted];
-                CGFloat imageWidth = tileButton.imageView.frame.size.width;
-                CGFloat centeredImageSidePadding = (tileButton.frame.size.width - imageWidth) / 2;
+//                CGFloat imageWidth = tileButton.imageView.frame.size.width;
+                CGFloat centeredImageSidePadding = (tileButton.frame.size.width - MG_TILE_IMAGE_SIZE) / 2;
                 [tileButton setImageEdgeInsets:UIEdgeInsetsMake(5, centeredImageSidePadding, 20, centeredImageSidePadding)];
                 
 //                CGSize titleSize = [tileButton.accessibilityLabel sizeWithFont:[UIFont boldSystemFontOfSize:12]
@@ -1011,9 +1012,9 @@ CGGradientRef MGCreateGradientWithColors(UIColor *topColorRGB, UIColor *bottomCo
                 tileButton.buttonLabel.numberOfLines = 2;
                 [tileButton.buttonLabel setText:tileButton.accessibilityLabel];
                 tileButton.buttonLabel.lineHeight = 8.0f;
-                [tileButton.buttonLabel setFrame:CGRectMake(8, tileButton.imageView.frame.origin.y + tileButton.imageView.frame.size.height - 3,
+                [tileButton.buttonLabel setFrame:CGRectMake(8, tileButton.imageView.frame.origin.y + MG_TILE_IMAGE_SIZE - 3,
                                                             tileButton.frame.size.width - 16,
-                                                            tileButton.frame.size.height - (tileButton.imageView.frame.origin.y + tileButton.imageView.frame.size.height - 3) - 8)];
+                                                            tileButton.frame.size.height - (tileButton.imageView.frame.origin.y + MG_TILE_IMAGE_SIZE - 3) - 8)];
 //                [tileButton setTitle:tileButton.accessibilityLabel forState:UIControlStateHighlighted];
 //                [tileButton.titleLabel setFont:[UIFont boldSystemFontOfSize:10]];
 //                [tileButton.titleLabel setTextAlignment:UITextAlignmentCenter];
