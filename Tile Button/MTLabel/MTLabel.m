@@ -543,7 +543,8 @@ CGRect CTLineGetTypographicBoundsAsRect(CTLineRef line, CGPoint lineOrigin) {
 /** DT additions */
 - (void)setState:(UIControlState)aState
 {
-    switch (aState) { // for further customization
+    //Cast aState to int to suppress warning about the highlighted+selected case
+    switch ((int)aState) { // for further customization
         case UIControlStateNormal:
             [self setNeedsDisplay];
             break;
