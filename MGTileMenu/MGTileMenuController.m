@@ -243,22 +243,6 @@ NSString *MGTileMenuDidSwitchToPageNotification;
 	_appeared = NO;
 }
 
-
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-    
-	self.bezelColor = nil;
-	self.closeButtonImage = nil;
-	self.pageButtonImage = nil;
-	self.selectedCloseButtonImage = nil;
-	_animationOrder = nil;
-	_closeButton = nil;
-	_pageButton = nil;
-	_tileButtons = nil;
-}
-
-
 - (void)viewWillAppear:(BOOL)animated
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -277,14 +261,6 @@ NSString *MGTileMenuDidSwitchToPageNotification;
 
 
 #pragma mark - Rotation
-
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-	return YES;
-}
-
 
 - (void)deviceDidRotate:(NSNotification *)notification
 {
